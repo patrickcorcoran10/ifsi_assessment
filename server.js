@@ -1,8 +1,7 @@
 const path = require('path');
 const express = require('express');
-
-
 const sequelize = require('./config/connection');
+const { Student, ExamRequest } = require('./models');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -159,6 +158,15 @@ app.get('/api/exam_requests', async (req, res) => {
 
 
 
-sequelize.sync({ force: false }).then(() => {
-  app.listen(PORT, () => console.log('Now listening'));
-});
+async function startServer() {
+  try {
+    await sequelize.authenticate();
+    await sequelize.sync({ force: false });
+    app.listen(PORT, () => console.log(`Now listening on port ${PORT}`));
+  } catch (error) {
+    console.error('Unable to connect to the database or initialize the application:', error);
+    process.exitCode = 1;
+  }
+}
+
+startServer();
