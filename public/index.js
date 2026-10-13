@@ -182,66 +182,6 @@ $(function () {
       });
       $table.empty().append($caption, $thead, $tbody);
 
-      // Create a visual-only copy of the headings for when the real header scrolls
-      // out of view; aria-hidden keeps assistive technology on the original header.
-    //   const $tableWrapper = $table.closest(".table-wrapper");
-    //   const $floatingHeader = $("<div>")
-    //     .addClass("floating-table-header")
-    //     .attr("aria-hidden", "true")
-    //     .hide();
-    //   const $floatingTable = $("<table>").append($thead.clone());
-    //   $floatingHeader.append($floatingTable).appendTo("body");
-
-    //   // Position the copied header over the table and align it with the columns.
-    //   function updateFloatingHeader() {
-    //     const table = $table[0];
-    //     const wrapper = $tableWrapper[0];
-    //     const headerRect = table.tHead.getBoundingClientRect();
-    //     const tableRect = table.getBoundingClientRect();
-    //     const wrapperRect = wrapper.getBoundingClientRect();
-    //     const headerHeight = headerRect.height;
-
-    //     // Show the copied header only while the real header is scrolled away
-    //     // and the table's rows are still visible.
-    //     if (headerRect.bottom > 0 || tableRect.bottom <= headerHeight) {
-    //       $floatingHeader.hide();
-    //       return;
-    //     }
-
-    //     $floatingHeader.css({
-    //       display: "block",
-    //       left: `${wrapperRect.left}px`,
-    //       width: `${wrapper.clientWidth}px`,
-    //       height: `${headerHeight}px`
-    //     });
-    //     $floatingTable.css({
-    //       width: `${tableRect.width}px`,
-    //       transform: `translateX(-${wrapper.scrollLeft}px)`
-    //     });
-    //     $floatingTable.find("th").each(function (index) {
-    //       $(this).css(
-    //         "width",
-    //         `${table.tHead.rows[0].cells[index].getBoundingClientRect().width}px`
-    //       );
-    //     });
-    //   }
-
-    //   let floatingHeaderFrame = null;
-    //   // Batch repeated scroll/resize events into a single layout update per frame.
-    //   function scheduleFloatingHeaderUpdate() {
-    //     if (floatingHeaderFrame !== null) {
-    //       return;
-    //     }
-    //     floatingHeaderFrame = window.requestAnimationFrame(() => {
-    //       floatingHeaderFrame = null;
-    //       updateFloatingHeader();
-    //     });
-    //   }
-
-    //   $(window).on("scroll.examRequests", scheduleFloatingHeaderUpdate);
-    //   $(window).on("resize.examRequests", scheduleFloatingHeaderUpdate);
-    //   $tableWrapper.on("scroll.examRequests", scheduleFloatingHeaderUpdate);
-    //   updateFloatingHeader();
 
       // Filter rows as the user types and announce the number still visible.
       $filter.on("input.examRequests", function () {
