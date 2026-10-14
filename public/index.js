@@ -23,8 +23,9 @@ $(function () {
     const $field = $(field);
     const element = $field[0];
     const label = $(`label[for="${element.id}"]`).text().trim();
+    const value = $field.val();
     element.setCustomValidity(
-      $field.val().trim() ? "" : `${label} is required.`
+      typeof value === "string" && value.trim() ? "" : `${label} is required.`
     );
     if (element.validity.valid) {
       $field.removeAttr("aria-invalid");
@@ -74,7 +75,7 @@ $(function () {
     const email = $("#email").val().trim();
     const fireDepartment = $("#fire-department").val().trim();
     const $course = $("#course");
-    const course = $course.val().trim();
+    const course = ($course.val() || "").trim();
     const courseName = $course.find("option:selected").text().trim();
     const date = $examDate.val();
     const $accommodation = $("#accommodation");
