@@ -5,8 +5,8 @@ require('dotenv').config(); // Loads local .env values when running locally
 let sequelize;
 
 // 1. Check if Railway's MySQL URL exists (Production environment)
-if (process.env.MYSQL_URL) {
-  sequelize = new Sequelize(process.env.MYSQL_URL, {
+if (process.env.PRODUCTION_DB_URL) {
+  sequelize = new Sequelize(process.env.PRODUCTION_DB_URL, {
     dialect: 'mysql',
     logging: false, // Prevents terminal log cluttering in production
   });
