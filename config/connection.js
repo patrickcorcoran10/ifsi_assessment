@@ -1,22 +1,26 @@
 // connection.js
 const { Sequelize } = require('sequelize');
-require('dotenv').config(); // Loads local .env values when running locally
+
+// Load the local .env variables
+require('dotenv').config(); 
 
 let sequelize;
 
-// 1. Check if Railway's MySQL URL exists (Production environment)
+// 1. ALWAYS check for the cloud environment variable first
 if (process.env.PRODUCTION_DB_URL) {
+  console.log('--- SYSTEM DETECTED PRODUCTION_DB_URL: CONNECTING TO CLOUD DB ---');
   sequelize = new Sequelize(process.env.PRODUCTION_DB_URL, {
     dialect: 'mysql',
-    logging: false, // Prevents terminal log cluttering in production
+    logging: false,
   });
 } 
-// 2. Fall back to separate individual parameters (Local development environment)
+// 2. FALLBACK to local settings only if the cloud variable is completely missing
 else {
+  console.log('--- CLOUD VARIABLE NOT FOUND: CONNECTING TO LOCAL DB ---');
   sequelize = new Sequelize(
-    process.env.DB_NAME,
-    process.env.DB_USER,
-    process.env.DB_PASSWORD,
+    process.env.DB_NAME || 'ifsi_db',
+    process.env.DB_USER || 'root',
+    process.env.DB_PASSWORD || 'password',
     {
       host: process.env.DB_HOST || '127.0.0.1',
       port: process.env.DB_PORT || 3306,
