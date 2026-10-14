@@ -15,7 +15,7 @@ if (process.env.PORT || process.env.RAILWAY_ENVIRONMENT) {
     {
       // Using Railway's standard external proxy domain to guarantee connection
       host: 'viaduct.proxy.rlwy.net', 
-      port: 43232, // IMPORTANT: Change this to your database's public/proxy port if it is different
+      port: 25415, // IMPORTANT: Change this to your database's public/proxy port if it is different
       dialect: 'mysql',
       logging: false,
     }
