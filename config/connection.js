@@ -4,25 +4,27 @@ require('dotenv').config();
 
 let sequelize;
 
-// If we are in production on Railway, force connection parameters directly
 if (process.env.PORT || process.env.RAILWAY_ENVIRONMENT) {
   console.log('--- SYSTEM FORCING PRODUCTION CONNECTION TO RAILWAY MYSQL ---');
   
   sequelize = new Sequelize(
-    'railway',                          // Database Name
-    'root',                             // Username
-    'QBCKxLjanavgtZWmzhQLnkDNXNBXCDGL', // Password (stripped of quotes)
+    'railway',
+    'root',
+    'QBCKxLjanavgtZWmzhQLnkDNXNBXCDGL',
     {
-      // Using Railway's standard external proxy domain to guarantee connection
-      host: 'viaduct.proxy.rlwy.net', 
-      port: 25415, // IMPORTANT: Change this to your database's public/proxy port if it is different
+      host: 'switchyard.proxy.rlwy.net', 
+      port: 25415,
       dialect: 'mysql',
       logging: false,
+      // ADD THIS BLOCK TO FIX THE PROTOCOL_CONNECTION_LOST ERROR
+      dialectOptions: {
+        ssl: {
+          rejectUnauthorized: false // Required for Railway's public proxy connections
+        }
+      }
     }
   );
-} 
-// Local Fallback
-else {
+} else {
   console.log('--- SYSTEM CONNECTING TO LOCAL DB ---');
   sequelize = new Sequelize(
     process.env.DB_NAME || 'ifsi_db',
