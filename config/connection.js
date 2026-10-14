@@ -10,7 +10,7 @@ if (process.env.PORT || process.env.RAILWAY_ENVIRONMENT) {
   sequelize = new Sequelize(
     'railway',
     'root',
-    'QBCKxLjanavgtZWmzhQLnkDNXNBXCDGL',
+    process.env.RAILWAY_PASSWORD,
     {
       host: 'switchyard.proxy.rlwy.net', 
       port: 25415,
