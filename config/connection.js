@@ -1,22 +1,29 @@
 // connection.js
 const { Sequelize } = require('sequelize');
-
-// Load the local .env variables
 require('dotenv').config(); 
 
 let sequelize;
 
-// 1. ALWAYS check for the cloud environment variable first
-if (process.env.PRODUCTION_DB_URL) {
-  console.log('--- SYSTEM DETECTED PRODUCTION_DB_URL: CONNECTING TO CLOUD DB ---');
-  sequelize = new Sequelize(process.env.PRODUCTION_DB_URL, {
-    dialect: 'mysql',
-    logging: false,
-  });
+// If we are in production on Railway, force connection parameters directly
+if (process.env.PORT || process.env.RAILWAY_ENVIRONMENT) {
+  console.log('--- SYSTEM FORCING PRODUCTION CONNECTION TO RAILWAY MYSQL ---');
+  
+  sequelize = new Sequelize(
+    'railway',                          // Database Name
+    'root',                             // Username
+    'QBCKxLjanavgtZWmzhQLnkDNXNBXCDGL', // Password (stripped of quotes)
+    {
+      // Using Railway's standard external proxy domain to guarantee connection
+      host: 'viaduct.proxy.rlwy.net', 
+      port: 43232, // IMPORTANT: Change this to your database's public/proxy port if it is different
+      dialect: 'mysql',
+      logging: false,
+    }
+  );
 } 
-// 2. FALLBACK to local settings only if the cloud variable is completely missing
+// Local Fallback
 else {
-  console.log('--- CLOUD VARIABLE NOT FOUND: CONNECTING TO LOCAL DB ---');
+  console.log('--- SYSTEM CONNECTING TO LOCAL DB ---');
   sequelize = new Sequelize(
     process.env.DB_NAME || 'ifsi_db',
     process.env.DB_USER || 'root',
